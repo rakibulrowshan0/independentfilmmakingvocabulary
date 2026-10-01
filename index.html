@@ -1,0 +1,3822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cinema Knowledge System — Independent Spirit</title>
+
+<meta name="description"
+content="Cinema Knowledge System — a cinematic, independent and dynamic field guide to filmmaking, film language, history, craft, ethics, technology, AI, distribution and archive.">
+
+<style>
+
+/* =========================================================
+   CINEMA KNOWLEDGE SYSTEM
+   SINGLE-FILE CINEMATIC WEBSITE
+   ========================================================= */
+
+:root{
+    --black:#050706;
+    --deep:#08100b;
+    --green:#0d1b12;
+    --panel:#0c1510;
+    --line:#22362a;
+    --text:#e8efe9;
+    --muted:#91a096;
+    --acid:#baff55;
+    --orange:#ff7448;
+    --blue:#63c7ff;
+    --white:#ffffff;
+
+    --max:1450px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(40,100,60,.28),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 5% 70%,
+            rgba(30,75,50,.20),
+            transparent 30%
+        ),
+        var(--black);
+
+    color:var(--text);
+
+    font-family:
+        Inter,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    line-height:1.6;
+
+    overflow-x:hidden;
+}
+
+/* Film grain */
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:.035;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+
+    z-index:9999;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+
+    z-index:1000;
+
+    background:rgba(5,7,6,.78);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.nav-inner{
+    max-width:var(--max);
+    margin:auto;
+
+    padding:16px 28px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:13px;
+    font-weight:900;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
+}
+
+.logo span{
+    color:var(--acid);
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.15em;
+
+    color:var(--muted);
+}
+
+.nav-links a{
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:var(--acid);
+}
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+.progress{
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    height:3px;
+
+    width:0%;
+
+    background:var(--acid);
+
+    z-index:2000;
+}
+
+/* =========================================================
+   GENERAL
+   ========================================================= */
+
+.container{
+    max-width:var(--max);
+    margin:auto;
+
+    padding-left:28px;
+    padding-right:28px;
+}
+
+section{
+    padding:130px 0;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+
+    gap:40px;
+
+    margin-bottom:55px;
+}
+
+.section-number{
+    color:var(--orange);
+
+    font-size:11px;
+
+    letter-spacing:.25em;
+
+    text-transform:uppercase;
+
+    font-weight:900;
+}
+
+h2{
+    font-size:
+        clamp(48px,7vw,105px);
+
+    line-height:.88;
+
+    letter-spacing:-.07em;
+
+    margin-top:10px;
+
+    max-width:950px;
+}
+
+.section-description{
+    max-width:430px;
+
+    color:var(--muted);
+
+    font-size:15px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero{
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    padding:
+        150px
+        28px
+        80px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:800px;
+    height:800px;
+
+    right:-250px;
+    top:-250px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(186,255,85,.12),
+            transparent 65%
+        );
+}
+
+.hero-grid{
+    position:absolute;
+
+    inset:0;
+
+    opacity:.08;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.4) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.4) 1px,
+            transparent 1px
+        );
+
+    background-size:80px 80px;
+}
+
+.hero-content{
+    position:relative;
+
+    z-index:2;
+
+    max-width:var(--max);
+
+    width:100%;
+
+    margin:auto;
+}
+
+.hero-kicker{
+    color:var(--acid);
+
+    font-size:12px;
+
+    letter-spacing:.3em;
+
+    font-weight:900;
+
+    text-transform:uppercase;
+}
+
+.hero-title{
+    font-size:
+        clamp(75px,14vw,220px);
+
+    line-height:.76;
+
+    letter-spacing:-.09em;
+
+    text-transform:uppercase;
+
+    margin:
+        35px
+        0
+        50px;
+}
+
+.hero-title-outline{
+    color:transparent;
+
+    -webkit-text-stroke:
+        1px
+        rgba(235,240,235,.8);
+}
+
+.hero-introduction{
+    max-width:850px;
+
+    font-size:
+        clamp(18px,2vw,27px);
+
+    color:#c8d2ca;
+}
+
+.hero-actions{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:35px;
+}
+
+.button{
+    display:inline-block;
+
+    padding:13px 20px;
+
+    border-radius:50px;
+
+    border:1px solid var(--line);
+
+    background:#0a120d;
+
+    color:var(--text);
+
+    font-size:11px;
+
+    font-weight:900;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+
+    transition:.25s;
+}
+
+.button:hover{
+    transform:translateY(-3px);
+
+    border-color:var(--acid);
+}
+
+.button-primary{
+    background:var(--acid);
+
+    color:#071006;
+
+    border-color:var(--acid);
+}
+
+.hero-statistics{
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    margin-top:80px;
+
+    border:
+        1px solid
+        var(--line);
+}
+
+.stat{
+    padding:20px;
+
+    border-right:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(5,10,7,.75);
+}
+
+.stat:last-child{
+    border-right:none;
+}
+
+.stat strong{
+    display:block;
+
+    color:var(--acid);
+
+    font-size:25px;
+}
+
+.stat span{
+    font-size:10px;
+
+    color:var(--muted);
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+}
+
+/* =========================================================
+   MANIFESTO
+   ========================================================= */
+
+.manifesto{
+    display:grid;
+
+    grid-template-columns:
+        repeat(6,1fr);
+
+    border:1px solid var(--line);
+}
+
+.manifesto-card{
+    min-height:220px;
+
+    padding:27px 20px;
+
+    border-right:
+        1px solid
+        var(--line);
+
+    background:
+        linear-gradient(
+            145deg,
+            #0d1911,
+            #07100b
+        );
+
+    transition:.3s;
+}
+
+.manifesto-card:hover{
+    background:#102018;
+
+    transform:
+        translateY(-6px);
+}
+
+.manifesto-card:last-child{
+    border-right:none;
+}
+
+.manifesto-number{
+    color:var(--acid);
+
+    font-size:10px;
+
+    letter-spacing:.2em;
+}
+
+.manifesto-card h3{
+    margin-top:35px;
+
+    font-size:27px;
+
+    letter-spacing:-.03em;
+}
+
+.manifesto-card p{
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:12px;
+}
+
+/* =========================================================
+   LIFECYCLE
+   ========================================================= */
+
+.lifecycle{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:10px;
+}
+
+.lifecycle-card{
+    min-height:230px;
+
+    border:
+        1px solid
+        var(--line);
+
+    padding:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0c1710,
+            #07100b
+        );
+
+    transition:.3s;
+}
+
+.lifecycle-card:hover{
+    transform:translateY(-5px);
+
+    border-color:#52754d;
+}
+
+.lifecycle-number{
+    color:var(--acid);
+
+    font-size:10px;
+
+    letter-spacing:.18em;
+}
+
+.lifecycle-card h3{
+    font-size:20px;
+
+    margin-top:30px;
+}
+
+.lifecycle-card p{
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:8px;
+}
+
+/* =========================================================
+   KNOWLEDGE MAP
+   ========================================================= */
+
+.knowledge-controls{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-bottom:25px;
+}
+
+.search{
+    flex:1;
+
+    min-width:280px;
+
+    padding:16px 20px;
+
+    background:#07100b;
+
+    color:white;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:12px;
+
+    outline:none;
+}
+
+.search:focus{
+    border-color:var(--acid);
+}
+
+.category-button{
+    border:
+        1px solid
+        var(--line);
+
+    background:#07100b;
+
+    color:var(--muted);
+
+    padding:
+        8px
+        11px;
+
+    border-radius:30px;
+
+    font-size:10px;
+
+    transition:.2s;
+}
+
+.category-button:hover,
+.category-button.active{
+    background:var(--acid);
+
+    color:#071006;
+
+    border-color:var(--acid);
+}
+
+.vocabulary-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+}
+
+.vocabulary-card{
+    min-height:180px;
+
+    border:
+        1px solid
+        var(--line);
+
+    padding:22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0d1711,
+            #07100b
+        );
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.vocabulary-card:hover{
+    transform:translateY(-4px);
+
+    border-color:#54754e;
+}
+
+.vocabulary-label{
+    font-size:9px;
+
+    color:var(--acid);
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
+}
+
+.vocabulary-card h3{
+    font-size:18px;
+
+    margin:
+        12px
+        0
+        7px;
+}
+
+.vocabulary-card p{
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+/* =========================================================
+   FOUR DIMENSIONS
+   ========================================================= */
+
+.dimensions{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    border:
+        1px solid
+        var(--line);
+
+    background:var(--line);
+}
+
+.dimension{
+    padding:35px;
+
+    min-height:280px;
+
+    background:#09110c;
+}
+
+.dimension-label{
+    color:var(--acid);
+
+    font-size:10px;
+
+    letter-spacing:.18em;
+}
+
+.dimension h3{
+    font-size:35px;
+
+    margin-top:25px;
+
+    letter-spacing:-.04em;
+}
+
+.dimension p{
+    color:var(--muted);
+
+    margin-top:12px;
+
+    font-size:13px;
+}
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+.history{
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    border:
+        1px solid
+        var(--line);
+
+    background:var(--line);
+}
+
+.history-card{
+    min-height:220px;
+
+    padding:25px;
+
+    background:#08100b;
+}
+
+.history-card strong{
+    color:var(--blue);
+
+    font-size:11px;
+}
+
+.history-card h3{
+    font-size:23px;
+
+    margin-top:30px;
+}
+
+.history-card p{
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:8px;
+}
+
+/* =========================================================
+   CASE STUDIES
+   ========================================================= */
+
+.case-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+}
+
+.case{
+    min-height:235px;
+
+    border:
+        1px solid
+        var(--line);
+
+    padding:25px;
+
+    background:#09110c;
+}
+
+.case-year{
+    color:var(--orange);
+
+    font-size:10px;
+}
+
+.case h3{
+    font-size:19px;
+
+    margin:
+        12px
+        0
+        4px;
+}
+
+.case-maker{
+    color:var(--acid);
+
+    font-size:11px;
+}
+
+.case p{
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:14px;
+}
+
+/* =========================================================
+   INDEPENDENT SPIRIT
+   ========================================================= */
+
+.independent-box{
+    border:
+        1px solid
+        var(--line);
+
+    padding:55px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.1fr
+        .9fr;
+
+    gap:60px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #0e1c12,
+            #07100b
+        );
+}
+
+.independent-slogan{
+    font-size:
+        clamp(
+            45px,
+            6vw,
+            95px
+        );
+
+    line-height:.88;
+
+    letter-spacing:-.07em;
+}
+
+.independent-slogan span{
+    color:var(--acid);
+}
+
+.principles{
+    display:grid;
+
+    gap:17px;
+}
+
+.principle{
+    padding-left:17px;
+
+    border-left:
+        2px solid
+        var(--acid);
+}
+
+.principle strong{
+    display:block;
+
+    font-size:13px;
+
+    letter-spacing:.05em;
+}
+
+.principle p{
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+/* =========================================================
+   AI
+   ========================================================= */
+
+.ai-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:10px;
+}
+
+.ai-card{
+    padding:30px;
+
+    min-height:270px;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:#09110c;
+}
+
+.ai-card strong{
+    color:var(--acid);
+
+    font-size:10px;
+
+    letter-spacing:.2em;
+}
+
+.ai-card h3{
+    font-size:25px;
+
+    margin-top:30px;
+}
+
+.ai-card p{
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:10px;
+}
+
+/* =========================================================
+   READING PROTOCOL
+   ========================================================= */
+
+.protocol{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:10px;
+}
+
+.protocol-card{
+    border:
+        1px solid
+        var(--line);
+
+    padding:25px;
+
+    min-height:180px;
+
+    background:#09110c;
+}
+
+.protocol-card strong{
+    color:var(--acid);
+
+    font-size:10px;
+
+    letter-spacing:.15em;
+}
+
+.protocol-card h3{
+    margin-top:25px;
+}
+
+.protocol-card p{
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:7px;
+}
+
+/* =========================================================
+   FIELD QUESTION
+   ========================================================= */
+
+.field-question{
+    border:
+        1px dashed
+        #466746;
+
+    padding:
+        50px;
+
+    background:
+        rgba(186,255,85,.025);
+}
+
+.field-question h3{
+    font-size:
+        clamp(
+            30px,
+            4vw,
+            55px
+        );
+
+    line-height:1;
+}
+
+.field-question p{
+    color:var(--muted);
+
+    max-width:800px;
+
+    margin-top:20px;
+
+    font-size:16px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer{
+    border-top:
+        1px solid
+        var(--line);
+
+    padding:
+        100px
+        0;
+
+    background:#030503;
+}
+
+.footer-content{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    gap:40px;
+}
+
+.footer-title{
+    font-size:
+        clamp(
+            55px,
+            9vw,
+            140px
+        );
+
+    line-height:.8;
+
+    letter-spacing:-.08em;
+}
+
+.footer-description{
+    color:var(--muted);
+
+    max-width:550px;
+
+    margin-top:25px;
+}
+
+.footer-signature{
+    color:var(--acid);
+
+    font-size:11px;
+
+    text-align:right;
+
+    letter-spacing:.15em;
+
+    line-height:2;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal{
+    display:none;
+
+    position:fixed;
+
+    z-index:5000;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.82);
+
+    backdrop-filter:
+        blur(15px);
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:25px;
+}
+
+.modal.open{
+    display:flex;
+}
+
+.modal-content{
+    position:relative;
+
+    width:100%;
+
+    max-width:850px;
+
+    max-height:85vh;
+
+    overflow:auto;
+
+    padding:45px;
+
+    border:
+        1px solid
+        #3a563e;
+
+    background:#09110c;
+}
+
+.modal-close{
+    position:absolute;
+
+    top:15px;
+
+    right:18px;
+
+    border:0;
+
+    background:none;
+
+    color:var(--muted);
+
+    font-size:28px;
+}
+
+.modal-kicker{
+    color:var(--orange);
+
+    font-size:10px;
+
+    letter-spacing:.2em;
+}
+
+.modal h2{
+    font-size:55px;
+
+    margin:
+        15px
+        0
+        25px;
+}
+
+.modal p{
+    color:#c8d2ca;
+
+    font-size:15px;
+}
+
+.tags{
+    margin-top:25px;
+}
+
+.tag{
+    display:inline-block;
+
+    padding:
+        5px
+        9px;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:30px;
+
+    color:var(--acid);
+
+    font-size:9px;
+
+    margin:3px;
+}
+
+/* =========================================================
+   REVEAL
+   ========================================================= */
+
+.reveal{
+    opacity:0;
+
+    transform:
+        translateY(25px);
+
+    transition:
+        .8s
+        ease;
+}
+
+.reveal.visible{
+    opacity:1;
+
+    transform:none;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1050px){
+
+    .hero-statistics{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .manifesto{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .lifecycle{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .vocabulary-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .dimensions{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .history{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .case-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .ai-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .protocol{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .independent-box{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .container{
+        padding-left:17px;
+        padding-right:17px;
+    }
+
+    section{
+        padding:85px 0;
+    }
+
+    .hero{
+        padding:
+            130px
+            17px
+            60px;
+    }
+
+    .hero-title{
+        font-size:20vw;
+    }
+
+    .hero-statistics{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .manifesto,
+    .lifecycle,
+    .vocabulary-grid,
+    .dimensions,
+    .history,
+    .case-grid,
+    .ai-grid,
+    .protocol{
+        grid-template-columns:1fr;
+    }
+
+    .manifesto-card{
+        border-right:none;
+
+        border-bottom:
+            1px solid
+            var(--line);
+    }
+
+    .section-header{
+        display:block;
+    }
+
+    .section-description{
+        margin-top:20px;
+    }
+
+    .independent-box{
+        padding:28px;
+    }
+
+    .field-question{
+        padding:28px;
+    }
+
+    .footer-content{
+        display:block;
+    }
+
+    .footer-signature{
+        text-align:left;
+
+        margin-top:35px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<nav class="navbar">
+
+<div class="nav-inner">
+
+<a href="#top" class="logo">
+CINEMA <span>/</span> KNOWLEDGE SYSTEM
+</a>
+
+<div class="nav-links">
+
+<a href="#proposition">Proposition</a>
+
+<a href="#lifecycle">Lifecycle</a>
+
+<a href="#vocabulary">Vocabulary</a>
+
+<a href="#history">History</a>
+
+<a href="#films">Films</a>
+
+<a href="#independent">Independent</a>
+
+<a href="#ai">AI</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+
+<header class="hero" id="top">
+
+<div class="hero-grid"></div>
+
+<div class="hero-content">
+
+<div class="hero-kicker">
+An independent field guide for filmmakers
+</div>
+
+<h1 class="hero-title">
+
+Make film.<br>
+
+<span class="hero-title-outline">
+Know why.
+</span>
+
+</h1>
+
+<p class="hero-introduction">
+
+Cinema is not one craft.
+
+It is a living system of images, bodies, sounds,
+technologies, labor, money, memory, law,
+landscape, audiences and choices.
+
+<br><br>
+
+The Cinema Knowledge System maps that entire
+territory — from the first observation to the
+film's afterlife.
+
+</p>
+
+<div class="hero-actions">
+
+<a href="#vocabulary"
+class="button button-primary">
+Enter the vocabulary
+</a>
+
+<a href="#lifecycle"
+class="button">
+Enter the lifecycle
+</a>
+
+<a href="#independent"
+class="button">
+Enter independent spirit
+</a>
+
+</div>
+
+
+<div class="hero-statistics">
+
+<div class="stat">
+<strong>36</strong>
+<span>Knowledge Domains</span>
+</div>
+
+<div class="stat">
+<strong>1000+</strong>
+<span>Vocabulary Universe</span>
+</div>
+
+<div class="stat">
+<strong>SEE → MAKE</strong>
+<span>Learning Philosophy</span>
+</div>
+
+<div class="stat">
+<strong>AI + HUMAN</strong>
+<span>Contemporary Cinema</span>
+</div>
+
+<div class="stat">
+<strong>∞</strong>
+<span>Film Afterlife</span>
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+
+<!-- =====================================================
+     PROPOSITION
+     ===================================================== -->
+
+<section id="proposition" class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+01 / THE PROPOSITION
+</div>
+
+<h2>
+Film is a system
+of relationships.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+A camera is only one component.
+
+The filmmaker also negotiates reality,
+people, resources, technology,
+institutions, spectators and time.
+
+</p>
+
+</div>
+
+
+<div class="manifesto">
+
+<div class="manifesto-card">
+
+<div class="manifesto-number">
+01
+</div>
+
+<h3>SEE</h3>
+
+<p>
+Train attention before technique.
+Notice what others pass over.
+</p>
+
+</div>
+
+
+<div class="manifesto-card">
+
+<div class="manifesto-number">
+02
+</div>
+
+<h3>RESEARCH</h3>
+
+<p>
+Question sources, memory,
+context, power and your own position.
+</p>
+
+</div>
+
+
+<div class="manifesto-card">
+
+<div class="manifesto-number">
+03
+</div>
+
+<h3>MAKE</h3>
+
+<p>
+Turn constraints into form.
+Learn through actual production.
+</p>
+
+</div>
+
+
+<div class="manifesto-card">
+
+<div class="manifesto-number">
+04
+</div>
+
+<h3>REFLECT</h3>
+
+<p>
+Read your own images.
+Ask what the film reveals and hides.
+</p>
+
+</div>
+
+
+<div class="manifesto-card">
+
+<div class="manifesto-number">
+05
+</div>
+
+<h3>SCREEN</h3>
+
+<p>
+Meet audiences, spaces,
+criticism and unexpected meanings.
+</p>
+
+</div>
+
+
+<div class="manifesto-card">
+
+<div class="manifesto-number">
+06
+</div>
+
+<h3>CONTINUE</h3>
+
+<p>
+Distribute, preserve, revisit,
+teach and let the film develop an afterlife.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     LIFECYCLE
+     ===================================================== -->
+
+<section id="lifecycle" class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+02 / FILMMAKING LIFECYCLE
+</div>
+
+<h2>
+From noticing
+to continuing.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+There is no universal order.
+
+Independent filmmaking loops,
+breaks, returns and changes direction.
+
+</p>
+
+</div>
+
+
+<div class="lifecycle">
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">01 — NOTICE</div>
+<h3>Observation</h3>
+<p>
+Image, sound, place, gesture,
+memory, contradiction and curiosity.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">02 — ASK</div>
+<h3>Question</h3>
+<p>
+Idea, concept, premise, theme,
+research question and ethical question.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">03 — RESEARCH</div>
+<h3>Encounter</h3>
+<p>
+Fieldwork, archive, interview,
+observation, sources and permissions.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">04 — DISCOVER FORM</div>
+<h3>Design</h3>
+<p>
+Genre, mode, duration, structure,
+visual grammar and sound strategy.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">05 — DEVELOP</div>
+<h3>Write / Prototype</h3>
+<p>
+Logline, synopsis, treatment,
+screenplay, proof of concept.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">06 — ORGANIZE</div>
+<h3>Produce</h3>
+<p>
+Team, budget, financing, rights,
+schedule and co-production.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">07 — PREPARE</div>
+<h3>Pre-production</h3>
+<p>
+Breakdown, casting, locations,
+camera, sound, art and safety.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">08 — MAKE</div>
+<h3>Production</h3>
+<p>
+Direction, performance, camera,
+light, sound, continuity and data.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">09 — SHAPE</div>
+<h3>Post-production</h3>
+<p>
+Editing, montage, sound,
+music, color, VFX and titles.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">10 — FINISH</div>
+<h3>Master</h3>
+<p>
+Picture lock, mix, grade,
+subtitles, accessibility and QC.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">11 — POSITION</div>
+<h3>Public Life</h3>
+<p>
+Poster, trailer, press kit,
+audience strategy and premiere.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">12 — CIRCULATE</div>
+<h3>Screen / Distribute</h3>
+<p>
+Festivals, cinema, community,
+education, streaming and direct audiences.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">13 — PRESERVE</div>
+<h3>Archive</h3>
+<p>
+Masters, source media, metadata,
+checksums, rights and redundancy.
+</p>
+</div>
+
+<div class="lifecycle-card">
+<div class="lifecycle-number">14 — CONTINUE</div>
+<h3>Afterlife</h3>
+<p>
+Restoration, rerelease, research,
+teaching, retrospective and memory.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     VOCABULARY
+     ===================================================== -->
+
+<section id="vocabulary" class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+03 / KNOWLEDGE MAP
+</div>
+
+<h2>
+Search the language
+of cinema.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+Vocabulary is not a wall.
+
+It is a map.
+
+Search a term, open its field note,
+then turn knowledge into practice.
+
+</p>
+
+</div>
+
+
+<div class="knowledge-controls">
+
+<input
+id="search"
+class="search"
+type="text"
+placeholder="Search: montage, consent, archive, AI, landscape..."
+>
+
+</div>
+
+
+<div
+id="categories"
+class="knowledge-controls">
+</div>
+
+
+<div
+id="vocabularyGrid"
+class="vocabulary-grid">
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FOUR DIMENSIONS
+     ===================================================== -->
+
+<section class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+04 / FOUR DIMENSIONS
+</div>
+
+<h2>
+Every decision
+has another layer.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+A technical choice can become an ethical choice.
+
+A distribution choice can change meaning.
+
+A production choice can become an authorship question.
+
+</p>
+
+</div>
+
+
+<div class="dimensions">
+
+<div class="dimension">
+
+<div class="dimension-label">
+01 / CRAFT
+</div>
+
+<h3>HOW?</h3>
+
+<p>
+Camera, light, sound, editing,
+performance, production design,
+data and finishing.
+</p>
+
+</div>
+
+
+<div class="dimension">
+
+<div class="dimension-label">
+02 / MEANING
+</div>
+
+<h3>WHY?</h3>
+
+<p>
+Form, narrative, ideology, memory,
+rhythm, symbolism, spectatorship
+and historical context.
+</p>
+
+</div>
+
+
+<div class="dimension">
+
+<div class="dimension-label">
+03 / RESPONSIBILITY
+</div>
+
+<h3>FOR WHOM?</h3>
+
+<p>
+Consent, labor, safety,
+representation, rights,
+environment, inclusion and care.
+</p>
+
+</div>
+
+
+<div class="dimension">
+
+<div class="dimension-label">
+04 / CIRCULATION
+</div>
+
+<h3>AFTER?</h3>
+
+<p>
+Audience, festivals, distribution,
+revenue, discoverability,
+preservation and access.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     HISTORY
+     ===================================================== -->
+
+<section id="history" class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+05 / HISTORICAL CURRENT
+</div>
+
+<h2>
+One medium.
+Many emancipations.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+Cinema repeatedly reinvents itself when
+filmmakers challenge what counts as an image,
+who can make one and how it can circulate.
+
+</p>
+
+</div>
+
+
+<div class="history">
+
+<div class="history-card">
+
+<strong>1895 →</strong>
+
+<h3>CAPTURE</h3>
+
+<p>
+Actuality, motion, spectacle and
+the discovery of recorded moving images.
+</p>
+
+</div>
+
+
+<div class="history-card">
+
+<strong>1900s–20s</strong>
+
+<h3>LANGUAGE</h3>
+
+<p>
+Staging, editing, narrative space,
+montage and formal experimentation.
+</p>
+
+</div>
+
+
+<div class="history-card">
+
+<strong>1930s–60s</strong>
+
+<h3>REALITY / RUPTURE</h3>
+
+<p>
+Documentary, realism, neorealism,
+essay, experimental and New Wave practices.
+</p>
+
+</div>
+
+
+<div class="history-card">
+
+<strong>1960s–90s</strong>
+
+<h3>POLITICAL / PERSONAL</h3>
+
+<p>
+Third cinema, feminist, queer,
+postcolonial, community and radical media.
+</p>
+
+</div>
+
+
+<div class="history-card">
+
+<strong>2000s → NOW</strong>
+
+<h3>DIGITAL / NETWORKED</h3>
+
+<p>
+Desktop, mobile, hybrid, streaming,
+XR and AI-assisted cinema.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FILM LABORATORIES
+     ===================================================== -->
+
+<section id="films" class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+06 / FILMS AS LABORATORIES
+</div>
+
+<h2>
+Study films.
+<br>
+Do not worship them.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+Master films are teaching specimens.
+
+Ask what they do, what conditions
+produced them and what can be
+translated into your own context.
+
+</p>
+
+</div>
+
+
+<div class="case-grid">
+
+<div class="case">
+<div class="case-year">1895</div>
+<h3>Workers Leaving the Lumière Factory</h3>
+<div class="case-maker">Lumière brothers</div>
+<p>
+Actuality, duration, framing,
+movement and the camera as witness.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1902</div>
+<h3>A Trip to the Moon</h3>
+<div class="case-maker">Georges Méliès</div>
+<p>
+Staging, trick effects, spectacle,
+constructed worlds and transformation.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1925</div>
+<h3>Battleship Potemkin</h3>
+<div class="case-maker">Sergei Eisenstein</div>
+<p>
+Montage, collision, rhythm
+and political spectatorship.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1929</div>
+<h3>Man with a Movie Camera</h3>
+<div class="case-maker">Dziga Vertov</div>
+<p>
+Camera consciousness, editing,
+urban observation and reflexivity.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1943</div>
+<h3>Meshes of the Afternoon</h3>
+<div class="case-maker">Maya Deren / Alexander Hammid</div>
+<p>
+Repetition, dream logic,
+subjectivity, gesture and experimental form.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1948</div>
+<h3>Bicycle Thieves</h3>
+<div class="case-maker">Vittorio De Sica</div>
+<p>
+Neorealism, location work,
+nonprofessional performance and social observation.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1950</div>
+<h3>Rashomon</h3>
+<div class="case-maker">Akira Kurosawa</div>
+<p>
+Competing accounts, testimony,
+subjectivity and unstable truth claims.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1961</div>
+<h3>Chronique d'un été</h3>
+<div class="case-maker">Jean Rouch / Edgar Morin</div>
+<p>
+Participatory documentary,
+reflexivity and the documentary encounter.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1962</div>
+<h3>Cléo from 5 to 7</h3>
+<div class="case-maker">Agnès Varda</div>
+<p>
+Duration, walking space,
+gendered spectatorship and subjective time.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1960</div>
+<h3>Breathless</h3>
+<div class="case-maker">Jean-Luc Godard</div>
+<p>
+Jump cuts, discontinuity,
+location production and New Wave practice.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">1990</div>
+<h3>Close-Up</h3>
+<div class="case-maker">Abbas Kiarostami</div>
+<p>
+Reenactment, documentary-fiction,
+authorship and ethical ambiguity.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">2000</div>
+<h3>The Gleaners and I</h3>
+<div class="case-maker">Agnès Varda</div>
+<p>
+Digital nonfiction, self-reflexivity,
+wandering research and low-resource cinema.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">2012</div>
+<h3>The Act of Killing</h3>
+<div class="case-maker">Joshua Oppenheimer</div>
+<p>
+Performance, testimony, reenactment
+and documentary ethics.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">2015</div>
+<h3>Tangerine</h3>
+<div class="case-maker">Sean Baker</div>
+<p>
+Mobile production, location energy,
+performance and digital independence.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">2019</div>
+<h3>Parasite</h3>
+<div class="case-maker">Bong Joon Ho</div>
+<p>
+Architecture, class space,
+genre transformation and production design.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">2020</div>
+<h3>Nomadland</h3>
+<div class="case-maker">Chloé Zhao</div>
+<p>
+Hybrid practice, landscape,
+nonprofessional participants and precarity.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">2021</div>
+<h3>Flee</h3>
+<div class="case-maker">Jonas Poher Rasmussen</div>
+<p>
+Animated documentary, testimony,
+memory, privacy and hybrid form.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">2022</div>
+<h3>All That Breathes</h3>
+<div class="case-maker">Shaunak Sen</div>
+<p>
+Multispecies attention,
+urban ecology, care and observation.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">LOCAL LAB</div>
+<h3>An Elephant Goes to Himalaya from Bay of Bengal</h3>
+<div class="case-maker">Rakibul Rowshan</div>
+<p>
+Landscape imagination, symbolic geography
+and the Bay-of-Bengal-to-Himalaya cinematic axis.
+</p>
+</div>
+
+
+<div class="case">
+<div class="case-year">LOCAL LAB</div>
+<h3>Silent Island From Bay of Bengal</h3>
+<div class="case-maker">Rakibul Rowshan</div>
+<p>
+Nonverbal observation, cattle, water,
+mangrove ecology, tides and island life.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     INDEPENDENT SPIRIT
+     ===================================================== -->
+
+<section id="independent" class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+07 / INDEPENDENT SPIRIT
+</div>
+
+<h2>
+Autonomy without
+romanticizing hardship.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+Independence is not poverty,
+isolation or refusal of collaboration.
+
+It is creative agency,
+responsible labor and meaningful control.
+
+</p>
+
+</div>
+
+
+<div class="independent-box">
+
+<div class="independent-slogan">
+
+MAKE <span>ANYHOW.</span>
+
+<br>
+
+MAKE <span>CONSCIOUSLY.</span>
+
+<br>
+
+MAKE <span>TOGETHER.</span>
+
+</div>
+
+
+<div class="principles">
+
+<div class="principle">
+
+<strong>
+NO PERMISSION REQUIRED
+</strong>
+
+<p>
+Start with the resources, people
+and landscape you actually have.
+</p>
+
+</div>
+
+
+<div class="principle">
+
+<strong>
+NO ROMANCE OF EXPLOITATION
+</strong>
+
+<p>
+Low budget does not justify
+unsafe, unpaid or disposable labor.
+</p>
+
+</div>
+
+
+<div class="principle">
+
+<strong>
+TECHNOLOGY IS A TOOL
+</strong>
+
+<p>
+Use cameras, phones, software and AI
+to extend human intention.
+</p>
+
+</div>
+
+
+<div class="principle">
+
+<strong>
+REALITY IS NOT RAW MATERIAL
+</strong>
+
+<p>
+People and places are participants
+in an ethical encounter.
+</p>
+
+</div>
+
+
+<div class="principle">
+
+<strong>
+ARCHIVE THE PROCESS
+</strong>
+
+<p>
+Rushes, notes, metadata and failures
+are part of film history.
+</p>
+
+</div>
+
+
+<div class="principle">
+
+<strong>
+BUILD YOUR OWN CIRCULATION
+</strong>
+
+<p>
+Festivals matter, but community,
+education, web and direct audiences matter too.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="field-question">
+
+<h3>
+What can you make with the resources
+already around you?
+</h3>
+
+<p>
+
+And what new form becomes possible
+because those resources are limited?
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AI
+     ===================================================== -->
+
+<section id="ai" class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+08 / AI-ERA CINEMA
+</div>
+
+<h2>
+Augment the filmmaker.
+Do not erase the filmmaker.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+AI enters research, writing, translation,
+image generation, editing, sound,
+restoration, metadata and distribution.
+
+The question is not simply whether AI
+can make something.
+
+The question is who remains responsible
+for the work.
+
+</p>
+
+</div>
+
+
+<div class="ai-grid">
+
+<div class="ai-card">
+
+<strong>01 / ASSIST</strong>
+
+<h3>AI as extension</h3>
+
+<p>
+Brainstorming, transcription,
+translation, organization, research,
+technical assistance and iteration.
+</p>
+
+</div>
+
+
+<div class="ai-card">
+
+<strong>02 / GENERATE</strong>
+
+<h3>Synthetic material</h3>
+
+<p>
+Generated images, voices,
+performances and environments
+raise questions of authorship,
+provenance and disclosure.
+</p>
+
+</div>
+
+
+<div class="ai-card">
+
+<strong>03 / QUESTION</strong>
+
+<h3>Whose data?</h3>
+
+<p>
+Training sources, bias, consent,
+copyright, cultural knowledge
+and environmental cost remain
+production questions.
+</p>
+
+</div>
+
+
+<div class="ai-card">
+
+<strong>04 / RETURN</strong>
+
+<h3>Human judgment</h3>
+
+<p>
+The filmmaker remains responsible
+for selecting, framing,
+contextualizing and releasing
+the final work.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     HOW TO READ A FILM
+     ===================================================== -->
+
+<section class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+09 / HOW TO READ A FILM
+</div>
+
+<h2>
+Turn viewing
+into a practice.
+</h2>
+
+</div>
+
+<p class="section-description">
+
+Do not only ask whether a film is
+“good” or “bad”.
+
+Ask what it does.
+
+</p>
+
+</div>
+
+
+<div class="protocol">
+
+<div class="protocol-card">
+<strong>IMAGE</strong>
+<h3>What do I see?</h3>
+<p>
+Frame, lens, composition,
+movement, light, color and texture.
+</p>
+</div>
+
+<div class="protocol-card">
+<strong>SOUND</strong>
+<h3>What do I hear?</h3>
+<p>
+Voice, ambience, silence,
+music, noise and perspective.
+</p>
+</div>
+
+<div class="protocol-card">
+<strong>TIME</strong>
+<h3>How long?</h3>
+<p>
+Duration, repetition,
+ellipsis, simultaneity and rhythm.
+</p>
+</div>
+
+<div class="protocol-card">
+<strong>SPACE</strong>
+<h3>Where?</h3>
+<p>
+Architecture, geography,
+landscape, borders and proximity.
+</p>
+</div>
+
+<div class="protocol-card">
+<strong>BODY</strong>
+<h3>Who moves?</h3>
+<p>
+Gesture, performance,
+labor, intimacy, vulnerability and agency.
+</p>
+</div>
+
+<div class="protocol-card">
+<strong>MEANING</strong>
+<h3>What connects?</h3>
+<p>
+Motifs, contrasts,
+metaphors, ambiguity and form.
+</p>
+</div>
+
+<div class="protocol-card">
+<strong>POWER</strong>
+<h3>Who controls?</h3>
+<p>
+Who looks, speaks, edits,
+owns, funds and distributes?
+</p>
+</div>
+
+<div class="protocol-card">
+<strong>AFTERLIFE</strong>
+<h3>What remains?</h3>
+<p>
+Audience memory, archive,
+criticism, circulation and disappearance.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     KNOWLEDGE QUESTIONS
+     ===================================================== -->
+
+<section class="reveal">
+
+<div class="container">
+
+<div class="section-header">
+
+<div>
+
+<div class="section-number">
+10 / THE CENTRAL QUESTIONS
+</div>
+
+<h2>
+Who controls
+the image?
+</h2>
+
+</div>
+
+<p class="section-description">
+
+The Cinema Knowledge System ultimately
+returns to a set of questions about
+power, authorship, labor, memory and access.
+
+</p>
+
+</div>
+
+
+<div class="dimensions">
+
+<div class="dimension">
+<h3>WHO SEES?</h3>
+<p>
+Who holds the camera?
+From whose perspective?
+</p>
+</div>
+
+<div class="dimension">
+<h3>WHO IS SEEN?</h3>
+<p>
+Who becomes visible?
+Who remains outside the frame?
+</p>
+</div>
+
+<div class="dimension">
+<h3>WHO SPEAKS?</h3>
+<p>
+Who controls voice,
+testimony and narrative?
+</p>
+</div>
+
+<div class="dimension">
+<h3>WHO OWNS?</h3>
+<p>
+Who owns the image,
+sound, rights and archive?
+</p>
+</div>
+
+</div>
+
+
+<br><br>
+
+
+<div class="dimensions">
+
+<div class="dimension">
+<h3>WHO PAYS?</h3>
+<p>
+Who finances the production?
+What does that influence?
+</p>
+</div>
+
+<div class="dimension">
+<h3>WHO WORKS?</h3>
+<p>
+Who performs visible
+and invisible labor?
+</p>
+</div>
+
+<div class="dimension">
+<h3>WHO WATCHES?</h3>
+<p>
+Who is the imagined audience?
+Who actually encounters the work?
+</p>
+</div>
+
+<div class="dimension">
+<h3>WHO REMEMBERS?</h3>
+<p>
+What survives?
+What disappears?
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+<div class="container">
+
+<div class="footer-content">
+
+<div>
+
+<div class="hero-kicker">
+Cinema Knowledge System
+</div>
+
+<div class="footer-title">
+KEEP<br>
+MAKING.
+</div>
+
+<p class="footer-description">
+
+A living and expandable field guide
+for filmmakers who learn by seeing,
+researching, making, failing,
+reflecting, screening and continuing.
+
+</p>
+
+</div>
+
+
+<div class="footer-signature">
+
+INDEPENDENT<br>
+OPEN<br>
+PRACTICE<br><br>
+
+IDEA → IMAGE<br>
+IMAGE → WORLD<br>
+WORLD → ARCHIVE
+
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- =====================================================
+     VOCABULARY MODAL
+     ===================================================== -->
+
+<div
+id="modal"
+class="modal"
+>
+
+<div class="modal-content">
+
+<button
+class="modal-close"
+onclick="closeModal()">
+×
+</button>
+
+<div class="modal-kicker">
+CINEMA VOCABULARY / FIELD NOTE
+</div>
+
+<h2 id="modalTitle">
+</h2>
+
+<p id="modalDefinition">
+</p>
+
+<div class="tags">
+
+<span class="tag">definition</span>
+<span class="tag">history</span>
+<span class="tag">practice</span>
+<span class="tag">ethics</span>
+<span class="tag">independent application</span>
+
+</div>
+
+<br>
+
+<hr style="
+border:0;
+border-top:1px solid #22362a;
+">
+
+<br>
+
+<p>
+
+<strong>Practice question:</strong>
+
+Where does this concept appear
+in a real production you can make?
+
+What changes when you apply it
+outside a conventional industrial
+filmmaking context?
+
+</p>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   VOCABULARY DATABASE
+   ========================================================= */
+
+const vocabulary = [
+
+{
+term:"Cinematic Language",
+definition:"A system of images, sounds, durations, movements, spaces and relations through which cinema communicates."
+},
+
+{
+term:"Shot",
+definition:"A continuous recorded segment between the start and stop of a camera take."
+},
+
+{
+term:"Frame",
+definition:"The bounded visual field presented by the camera and later by the display."
+},
+
+{
+term:"Mise-en-scène",
+definition:"The arrangement of bodies, objects, light, space, costume and movement within the filmed scene."
+},
+
+{
+term:"Off-Screen Space",
+definition:"Space implied by the image but located beyond the visible frame."
+},
+
+{
+term:"Spectatorship",
+definition:"The ways viewers perceive, interpret and position themselves in relation to a film."
+},
+
+{
+term:"Indexicality",
+definition:"The idea that photographic images can bear a physical trace of what stood before the recording device."
+},
+
+{
+term:"Diegesis",
+definition:"The represented world of a film and the elements belonging to that world."
+},
+
+{
+term:"Film Form",
+definition:"The organized relationship among image, sound, duration, repetition, contrast and structure."
+},
+
+{
+term:"Montage",
+definition:"The creation of meaning, rhythm or continuity through the arrangement and relation of shots."
+},
+
+{
+term:"Continuity Editing",
+definition:"An editing system designed to make spatial and temporal relationships legible and coherent."
+},
+
+{
+term:"Jump Cut",
+definition:"A visible discontinuity produced by removing part of a continuous action or shifting within a shot."
+},
+
+{
+term:"Long Take",
+definition:"A shot sustained for an extended duration relative to the surrounding film."
+},
+
+{
+term:"Deep Focus",
+definition:"A photographic strategy in which substantial depth ranges remain acceptably sharp."
+},
+
+{
+term:"Shot Reverse Shot",
+definition:"A common editorial pattern alternating views of participants, often in conversation."
+},
+
+{
+term:"Room Tone",
+definition:"The characteristic ambient sound of a location recorded for editorial continuity."
+},
+
+{
+term:"Wild Track",
+definition:"Sound recorded separately from synchronized picture for later editorial use."
+},
+
+{
+term:"Sound Perspective",
+definition:"The construction of distance and spatial position through the character and level of sound."
+},
+
+{
+term:"Silence as Sound",
+definition:"A compositional use of reduced or absent audible activity as an expressive sonic event."
+},
+
+{
+term:"Paper Edit",
+definition:"A written plan of a documentary edit based on transcripts, notes or selected moments before cutting."
+},
+
+{
+term:"Stringout",
+definition:"A sequence of selected clips assembled for review before the final structure is determined."
+},
+
+{
+term:"Editorial Point of View",
+definition:"The perspective created through selection, omission, ordering, duration and juxtaposition."
+},
+
+{
+term:"Field Notes",
+definition:"Contemporaneous observations, questions, sensory details and contextual records made during research."
+},
+
+{
+term:"Oral History",
+definition:"Research based on recorded or documented testimony and memory of participants."
+},
+
+{
+term:"Source Criticism",
+definition:"Evaluation of a source's origin, reliability, context, purpose and limitations."
+},
+
+{
+term:"Triangulation",
+definition:"Comparing different sources, methods or perspectives to examine a question from more than one angle."
+},
+
+{
+term:"Practice-Based Research",
+definition:"Research in which creative practice itself generates knowledge alongside reflection and documentation."
+},
+
+{
+term:"Research-Creation",
+definition:"An approach combining research and creative production as mutually informing activities."
+},
+
+{
+term:"Positionality Statement",
+definition:"A transparent account of how the filmmaker's position shapes the work."
+},
+
+{
+term:"Informed Consent",
+definition:"Agreement to participate made with meaningful understanding of purpose, process, risks and intended use."
+},
+
+{
+term:"Ongoing Consent",
+definition:"Consent treated as a continuing relationship rather than a single signature."
+},
+
+{
+term:"Participant Agency",
+definition:"The capacity of people represented in a film to influence how they participate and are represented."
+},
+
+{
+term:"Extractive Filmmaking",
+definition:"Taking people, stories or places for a film without meaningful reciprocity or agency."
+},
+
+{
+term:"Ethical Reciprocity",
+definition:"A commitment to exchange, accountability and benefit rather than one-way extraction."
+},
+
+{
+term:"Risk Assessment",
+definition:"A structured examination of foreseeable hazards and measures to reduce them."
+},
+
+{
+term:"Crew Welfare",
+definition:"Attention to working hours, rest, food, safety, dignity, payment and sustainable working conditions."
+},
+
+{
+term:"Bootstrapping",
+definition:"Building production primarily through one's own resources, labor and incremental reinvestment."
+},
+
+{
+term:"In-Kind Contribution",
+definition:"Goods, services, locations, equipment or labor provided without direct cash payment."
+},
+
+{
+term:"Deferred Payment",
+definition:"An agreed payment postponed until specified financing or revenue conditions occur."
+},
+
+{
+term:"Cooperative Ownership",
+definition:"A structure in which a group shares ownership, governance or economic participation."
+},
+
+{
+term:"Production Bible",
+definition:"A consolidated project document containing creative, logistical, visual, production and reference information."
+},
+
+{
+term:"Call Sheet",
+definition:"A daily production document communicating schedule, people, locations, scenes and essential instructions."
+},
+
+{
+term:"Dynamic Range",
+definition:"The span between the darkest and brightest usable values a recording or display system can reproduce."
+},
+
+{
+term:"Rolling Shutter",
+definition:"A sensor readout method in which different portions of the frame are captured at slightly different times."
+},
+
+{
+term:"Global Shutter",
+definition:"A capture method in which the sensor records the frame at essentially the same instant."
+},
+
+{
+term:"Lens Breathing",
+definition:"A change in apparent framing during focus adjustment caused by optical design."
+},
+
+{
+term:"Color Management",
+definition:"Controlled handling of color information across capture, editing, grading, mastering and display."
+},
+
+{
+term:"Color Space",
+definition:"A defined system for representing color values."
+},
+
+{
+term:"Gamut",
+definition:"The range of colors a particular device or color space can represent."
+},
+
+{
+term:"3-2-1 Backup",
+definition:"A resilience strategy using at least three copies, two media types and one separately stored copy."
+},
+
+{
+term:"Checksum",
+definition:"A calculated value used to verify that digital data has not changed or become corrupted."
+},
+
+{
+term:"Media Inventory",
+definition:"A structured record of recorded cards, drives, files, masters and their locations."
+},
+
+{
+term:"Version Control",
+definition:"A disciplined method for distinguishing and tracking successive versions of project assets."
+},
+
+{
+term:"Computational Authorship",
+definition:"Authorship questions arising when software, models or automated systems materially contribute to a work."
+},
+
+{
+term:"Human-in-the-Loop",
+definition:"A workflow in which human judgment remains an active part of automated or AI-assisted generation."
+},
+
+{
+term:"Model Bias",
+definition:"Systematic tendencies in an AI model's outputs arising from training data, design or deployment context."
+},
+
+{
+term:"Synthetic Media Disclosure",
+definition:"Clear indication that media has been generated or substantially transformed through synthetic systems."
+},
+
+{
+term:"Dataset Provenance",
+definition:"Documentation concerning where training or reference data came from and how it was obtained or used."
+},
+
+{
+term:"Human Override",
+definition:"An ability for people to reject, modify or stop an automated system's output or action."
+},
+
+{
+term:"AI Carbon Footprint",
+definition:"Environmental cost associated with computation, data centers, model training and generation."
+},
+
+{
+term:"Environmental Footprint",
+definition:"Ecological impacts associated with producing, transporting, exhibiting and preserving a film."
+},
+
+{
+term:"Cultural Protocol",
+definition:"Community-specific expectations governing respectful access, representation, knowledge and use."
+},
+
+{
+term:"Trauma-Informed Filmmaking",
+definition:"Practice attentive to safety, agency, triggers, power and well-being around traumatic experience."
+},
+
+{
+term:"Closed Captions",
+definition:"Captions that can generally be toggled and include relevant non-speech audio information."
+},
+
+{
+term:"Open Captions",
+definition:"Captions permanently embedded into the visible picture."
+},
+
+{
+term:"Audio Description",
+definition:"Narration describing relevant visual information for audiences who cannot fully access the image."
+},
+
+{
+term:"Windowing",
+definition:"Sequencing of release periods across theatrical, festival, television, digital and other outlets."
+},
+
+{
+term:"Direct-to-Audience",
+definition:"Distribution in which filmmakers or their organization communicate and transact directly with viewers."
+},
+
+{
+term:"Discoverability",
+definition:"The likelihood that audiences can find a work through search, recommendation, programming or community circulation."
+},
+
+{
+term:"Fixity",
+definition:"Evidence that a preserved digital file remains unchanged over time."
+},
+
+{
+term:"Preservation Master",
+definition:"A high-quality archival version intended for long-term preservation."
+},
+
+{
+term:"Access Copy",
+definition:"A viewing or distribution copy created so that the preservation master can remain protected."
+},
+
+{
+term:"Landscape as Character",
+definition:"A filmmaking approach in which place has agency, presence or dramatic significance rather than functioning merely as background."
+},
+
+{
+term:"More-than-Human Cinema",
+definition:"Cinema expanding attention beyond human-centered narratives to animals, plants, weather, rivers, materials and ecological relations."
+},
+
+{
+term:"Multispecies Gaze",
+definition:"An approach considering relations among multiple species and forms of life."
+},
+
+{
+term:"Political Ecology",
+definition:"An approach connecting environmental processes with power, labor, economy, governance and inequality."
+},
+
+{
+term:"River Time",
+definition:"A temporal concept shaped by currents, seasons, erosion, flooding and migration rather than only clock time."
+},
+
+{
+term:"Guerrilla Filmmaking",
+definition:"Resourceful filmmaking that minimizes dependence on conventional industrial infrastructure."
+},
+
+{
+term:"DIY Cinema",
+definition:"Do-it-yourself filmmaking in which creators retain substantial control over production and circulation."
+},
+
+{
+term:"Community Filmmaking",
+definition:"Collaborative filmmaking with a community as active participants in conception, production or circulation."
+},
+
+{
+term:"Film Historiography",
+definition:"The study and construction of histories of cinema, including how films are selected and remembered."
+},
+
+{
+term:"Counter-History",
+definition:"A historical account challenging dominant narratives by foregrounding excluded experiences or perspectives."
+},
+
+{
+term:"Archival Silence",
+definition:"Absence or distortion in the surviving record that affects what can be known about the past."
+},
+
+{
+term:"Counter-Archive",
+definition:"An archive intentionally built to preserve memories, materials or perspectives neglected by dominant institutions."
+}
+
+];
+
+
+/* =========================================================
+   CATEGORY SYSTEM
+   ========================================================= */
+
+const categoryList = [
+
+"FOUNDATIONS",
+
+"HISTORY",
+
+"THEORY",
+
+"DEVELOPMENT",
+
+"RESEARCH",
+
+"DOCUMENTARY",
+
+"STORY",
+
+"EXPERIMENT",
+
+"DIRECTING",
+
+"PRODUCING",
+
+"FINANCE",
+
+"PRE-PRODUCTION",
+
+"PRODUCTION",
+
+"CAMERA",
+
+"LIGHTING",
+
+"DESIGN",
+
+"SOUND",
+
+"EDITING",
+
+"POST",
+
+"COLOR",
+
+"DATA",
+
+"AI",
+
+"ETHICS",
+
+"LAW",
+
+"ACCESSIBILITY",
+
+"DELIVERY",
+
+"MARKETING",
+
+"FESTIVALS",
+
+"DISTRIBUTION",
+
+"ARCHIVE",
+
+"AUDIENCE",
+
+"INDEPENDENT",
+
+"ECOLOGY",
+
+"SENSATION",
+
+"EMERGING",
+
+"DECOLONIAL"
+
+];
+
+
+/* =========================================================
+   BUILD CATEGORY BUTTONS
+   ========================================================= */
+
+const categoryContainer =
+document.getElementById("categories");
+
+categoryContainer.innerHTML =
+
+'<button class="category-button active" data-category="all">ALL</button>'
+
++
+
+categoryList.map(category =>
+
+`<button class="category-button"
+data-category="${category}">
+${category}
+</button>`
+
+).join("");
+
+
+/* =========================================================
+   VOCABULARY RENDER
+   ========================================================= */
+
+const vocabularyGrid =
+document.getElementById("vocabularyGrid");
+
+const search =
+document.getElementById("search");
+
+let activeCategory="all";
+
+
+function renderVocabulary(){
+
+let query =
+search.value
+.toLowerCase()
+.trim();
+
+
+let filtered =
+vocabulary.filter(item => {
+
+return (
+item.term.toLowerCase().includes(query)
+||
+item.definition.toLowerCase().includes(query)
+);
+
+});
+
+
+vocabularyGrid.innerHTML="";
+
+
+if(filtered.length===0){
+
+vocabularyGrid.innerHTML=`
+
+<div style="
+grid-column:1/-1;
+padding:50px;
+border:1px solid #22362a;
+color:#91a096;
+">
+
+No term found.
+
+Try another word.
+
+Or treat the absence as
+a research question.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+filtered.forEach(item=>{
+
+const card =
+document.createElement("div");
+
+card.className="vocabulary-card";
+
+
+card.innerHTML=`
+
+<div class="vocabulary-label">
+Cinema Knowledge / Field Note
+</div>
+
+<h3>
+${item.term}
+</h3>
+
+<p>
+${item.definition}
+</p>
+
+`;
+
+
+card.addEventListener(
+"click",
+()=>openModal(item)
+);
+
+
+vocabularyGrid.appendChild(card);
+
+});
+
+}
+
+
+renderVocabulary();
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+search.addEventListener(
+"input",
+renderVocabulary
+);
+
+
+/* =========================================================
+   CATEGORY BUTTONS
+   ========================================================= */
+
+document
+.querySelectorAll(".category-button")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+document
+.querySelectorAll(".category-button")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+button.classList.add("active");
+
+activeCategory =
+button.dataset.category;
+
+renderVocabulary();
+
+}
+
+);
+
+});
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+const modal =
+document.getElementById("modal");
+
+const modalTitle =
+document.getElementById("modalTitle");
+
+const modalDefinition =
+document.getElementById("modalDefinition");
+
+
+function openModal(item){
+
+modalTitle.textContent =
+item.term;
+
+modalDefinition.textContent =
+item.definition;
+
+modal.classList.add("open");
+
+}
+
+
+function closeModal(){
+
+modal.classList.remove("open");
+
+}
+
+
+modal.addEventListener(
+"click",
+function(event){
+
+if(event.target===modal){
+
+closeModal();
+
+}
+
+});
+
+
+/* =========================================================
+   SCROLL PROGRESS
+   ========================================================= */
+
+window.addEventListener(
+"scroll",
+function(){
+
+const documentHeight =
+document.documentElement.scrollHeight
+-
+document.documentElement.clientHeight;
+
+const scroll =
+document.documentElement.scrollTop;
+
+const percentage =
+(scroll/documentHeight)*100;
+
+document.getElementById(
+"progress"
+).style.width =
+percentage+"%";
+
+}
+);
+
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+
+const observer =
+new IntersectionObserver(
+entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add(
+"visible"
+);
+
+}
+
+});
+
+},
+{
+threshold:.08
+}
+);
+
+
+document
+.querySelectorAll(".reveal")
+.forEach(
+element=>observer.observe(element)
+);
+
+
+/* =========================================================
+   KEYBOARD ESCAPE
+   ========================================================= */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+if(event.key==="Escape"){
+
+closeModal();
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
